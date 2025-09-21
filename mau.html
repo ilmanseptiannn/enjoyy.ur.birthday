@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>cieee mau dimsum</title>
+        <link rel="stylesheet" href="dimsum.css">
+    </head>
+    <body>
+        <h1>SERIUS MAU DIMSUM?</h1>
+        <h2> dimsum aja mau, terus mau sama aku nya kapan?</h2>
+        <div style="display: flex; justify-content: center; gap: 40px; margin: 20px 0;">
+                <div id="tabel-container" style="position: relative; width: 900px; height: 350px; margin: 20px auto;">
+                    <a href="sekarang.html" id="sekarangLink" style="text-decoration: none; color: inherit; position: absolute;">
+                        <table border="1" style="cursor:pointer;">
+                            <tr>
+                                <th style="padding: 10px 40px;">sekarang</th>
+                            </tr>
+                        </table>
+                    </a>
+                    <div id="kapanLink" style="position: absolute; cursor:pointer;">
+                        <table border="1">
+                            <tr>
+                                <th style="padding: 10px 40px;">kapan kapan</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <script>
+                const kapanLink = document.getElementById('kapanLink');
+                const sekarangLink = document.getElementById('sekarangLink');
+                const container = document.getElementById('tabel-container');
+
+                // Fungsi untuk memposisikan kedua tabel di tengah container
+                function centerTables() {
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    const sekarangWidth = sekarangLink.offsetWidth;
+                    const kapanWidth = kapanLink.offsetWidth;
+                    const tableGap = 40;
+                    const totalWidth = sekarangWidth + tableGap + kapanWidth;
+                    const leftStart = (containerWidth - totalWidth) / 2;
+                    const topPos = (containerHeight - Math.max(sekarangLink.offsetHeight, kapanLink.offsetHeight)) / 2;
+                    sekarangLink.style.left = leftStart + 'px';
+                    sekarangLink.style.top = topPos + 'px';
+                    kapanLink.style.left = (leftStart + sekarangWidth + tableGap) + 'px';
+                    kapanLink.style.top = topPos + 'px';
+                }
+
+                // Posisikan di tengah saat halaman dimuat dan saat resize
+                window.addEventListener('DOMContentLoaded', centerTables);
+                window.addEventListener('resize', centerTables);
+
+                kapanLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    const linkWidth = kapanLink.offsetWidth;
+                    const linkHeight = kapanLink.offsetHeight;
+                    // Area tabel sekarang
+                    const sekarangLeft = sekarangLink.offsetLeft;
+                    const sekarangTop = sekarangLink.offsetTop;
+                    const sekarangWidth = sekarangLink.offsetWidth;
+                    const sekarangHeight = sekarangLink.offsetHeight;
+                    const maxLeft = containerWidth - linkWidth;
+                    const maxTop = containerHeight - linkHeight;
+                    let randomLeft, randomTop;
+                    let tries = 0;
+                    do {
+                        randomLeft = Math.floor(Math.random() * maxLeft);
+                        randomTop = Math.floor(Math.random() * maxTop);
+                        // Cek overlap dengan area tabel sekarang
+                        const overlap = !(randomLeft + linkWidth < sekarangLeft ||
+                                         randomLeft > sekarangLeft + sekarangWidth ||
+                                         randomTop + linkHeight < sekarangTop ||
+                                         randomTop > sekarangTop + sekarangHeight);
+                        if (!overlap) break;
+                        tries++;
+                    } while (tries < 100);
+                    kapanLink.style.left = randomLeft + 'px';
+                    kapanLink.style.top = randomTop + 'px';
+                });
+                </script>
+        </div>
+    <body>
+    
